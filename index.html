@@ -1,1 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="Humanfirst.digital helps teams build better digital experiences with UI testing, accessibility audits, UX reviews, and actionable improvement guidance.">
+  <title>humanfirst.digital — Better digital experiences for everyone.</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8f2;
+      --surface: #ffffff;
+      --surface-soft: #eef2e9;
+      --ink: #172b24;
+      --text: #34463e;
+      --muted: #52635b;
+      --accent: #d2f47c;
+      --accent-strong: #b9e85b;
+      --line: #d7dfd5;
+      --deep: #12241d;
+      --radius: 22px;
+      --shadow: 0 20px 60px rgba(18,36,29,.08);
+      --container: 1180px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid #377a5c; outline-offset: 4px; }
+    ::selection { background: var(--accent); color: var(--ink); }
+    .container { width: min(var(--container), calc(100% - 44px)); margin-inline: auto; }
+    .skip-link { position: absolute; top: -70px; left: 16px; z-index: 100; background: var(--deep); color: white; padding: 10px 18px; border-radius: 10px; }
+    .skip-link:focus { top: 14px; }
+
+    /* Navigation */
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(247,248,242,.95); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+    .nav { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; flex-shrink: 0; font-weight: 800; font-size: 19px; letter-spacing: -.8px; }
+    .brand-mark { width: 38px; height: 38px; display: inline-grid; place-items: center; border-radius: 12px; background: var(--ink); color: var(--accent); font-size: 21px; font-weight: 800; letter-spacing: -3px; padding-right: 3px; }
+    .brand .dot { color: #52724a; }
+    .nav-links { display: flex; align-items: center; gap: 27px; }
+    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 650; }
+    .nav-links a:hover, .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .nav-links .nav-cta { padding: 10px 18px; border-radius: 10px; background: var(--ink); color: white; }
+    .nav-links .nav-cta:hover { background: #304c3d; text-decoration: none; }
+    .menu-toggle { display: none; background: white; border: 1px solid var(--line); border-radius: 10px; width: 43px; height: 43px; align-items: center; justify-content: center; cursor: pointer; color: var(--ink); }
+
+    /* Global components */
+    section { padding: 90px 0; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: 1.35px; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #719b42; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { line-height: 1.13; letter-spacing: -.045em; }
+    h1 { font-size: clamp(46px, 5.5vw, 78px); margin: 24px 0; font-weight: 820; }
+    h2 { font-size: clamp(34px, 4vw, 51px); margin: 15px 0 18px; }
+    h3 { font-size: 22px; margin-bottom: 12px; }
+    .lead { color: var(--text); font-size: 18px; line-height: 1.8; }
+    .muted { color: var(--muted); }
+    .section-head { max-width: 690px; margin-bottom: 38px; }
+    .section-head p { max-width: 630px; color: var(--muted); font-size: 17px; }
+    .button { min-height: 49px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: 1px solid transparent; padding: 12px 21px; border-radius: 12px; font-weight: 750; font-size: 14px; cursor: pointer; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--accent); color: var(--ink); }
+    .button-primary:hover { background: var(--accent-strong); }
+    .button-dark { background: var(--ink); color: white; }
+    .button-dark:hover { background: #324c3e; }
+    .button-outline { color: var(--ink); background: transparent; border-color: #91a396; }
+    .button-outline:hover { background: white; }
+    .button-white { color: var(--ink); background: white; }
+    .button-white:hover { background: #e8f1dd; }
+
+    /* Hero */
+    .hero { padding: 94px 0 85px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 62px; align-items: center; }
+    .hero h1 span { color: #648d44; }
+    .hero-copy .lead { max-width: 530px; margin-bottom: 27px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 35px; }
+    .hero-proof { display: flex; gap: 11px; align-items: center; font-size: 13px; color: var(--muted); }
+    .proof-symbol { display: flex; align-items: center; justify-content: center; width: 31px; height: 31px; border-radius: 50%; background: #dcebd0; color: #2c683e; font-weight: 800; }
+    .visual-wrap { position: relative; padding: 18px 4px 25px 12px; }
+    .visual-wrap::before { content: ""; position: absolute; width: 410px; height: 410px; max-width: 95%; right: -40px; top: -38px; border-radius: 50%; background: #e4eed4; filter: blur(3px); z-index: 0; }
+    .audit-window { position: relative; z-index: 1; border-radius: 19px; background: var(--surface); box-shadow: 0 32px 80px rgba(18,36,29,.15); border: 1px solid #dce3da; overflow: hidden; transform: rotate(1.5deg); }
+    .window-bar { padding: 16px 19px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e4e9e3; }
+    .window-dots { display: flex; gap: 5px; }
+    .window-dots i { display: block; width: 9px; height: 9px; border-radius: 50%; background: #d0d8cf; }
+    .window-dots i:first-child { background: #e69b85; }
+    .window-dots i:nth-child(2) { background: #f1d071; }
+    .window-dots i:nth-child(3) { background: #8ebf87; }
+    .window-label { color: #718076; font-size: 11px; font-weight: 700; }
+    .audit-body { padding: 25px; }
+    .audit-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .audit-kicker { color: #64766c; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; font-weight: 800; }
+    .audit-body h3 { font-size: 25px; margin: 5px 0 0; }
+    .audit-badge { padding: 6px 11px; border-radius: 20px; background: #edf3e7; color: #426542; font-size: 11px; font-weight: 750; white-space: nowrap; }
+    .audit-skeleton { margin: 25px 0 15px; background: #f0f3ed; border-radius: 12px; padding: 15px; }
+    .mock-line { height: 8px; border-radius: 10px; background: #cad9c2; margin: 11px 0; }
+    .mock-line.short { width: 48%; }
+    .mock-line.medium { width: 76%; }
+    .mock-line.light { background: white; }
+    .findings { display: grid; gap: 9px; }
+    .finding { padding: 11px 12px; border: 1px solid #e5ebe3; border-radius: 11px; display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 12px; font-weight: 650; }
+    .finding .name { display: flex; align-items: center; gap: 9px; }
+    .finding-icon { width: 24px; height: 24px; flex-shrink: 0; border-radius: 7px; display: inline-grid; place-items: center; font-weight: 800; background: #e5eedc; color: #34613a; }
+    .finding-icon.warn { background: #fff0d9; color: #935e17; }
+    .finding-state { color: #66796d; font-weight: 600; font-size: 11px; text-align: right; }
+    .floating-note { position: absolute; z-index: 2; right: -19px; bottom: -8px; display: flex; align-items: center; gap: 12px; border: 1px solid #e2e7df; background: white; padding: 12px 15px; border-radius: 14px; box-shadow: var(--shadow); font-size: 12px; font-weight: 750; transform: rotate(-3deg); }
+    .floating-note-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; background: var(--accent); font-size: 17px; }
+    .caption-note { font-size: 11px; color: #718076; text-align: right; margin: 17px 0 0; }
+
+    /* Trust strip */
+    .promise-strip { padding: 0; }
+    .promise-grid { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+    .promise-grid > div { padding: 27px 20px; font-size: 14px; font-weight: 730; text-align: center; }
+    .promise-grid > div + div { border-left: 1px solid var(--line); }
+    .promise-grid span { color: #5c8c3b; font-size: 19px; margin-right: 9px; }
+
+    /* Services */
+    .services { background: #fff; }
+    .service-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 17px; }
+    .service-card { background: #f7f9f5; border: 1px solid #e1e8df; border-radius: var(--radius); padding: 28px 23px 27px; }
+    .service-icon { display: grid; place-items: center; width: 50px; height: 50px; background: #e3efd7; border-radius: 13px; margin-bottom: 30px; color: #225a39; }
+    .service-icon svg { width: 25px; height: 25px; }
+    .service-card h3 { font-size: 21px; }
+    .service-card p { font-size: 14px; color: var(--muted); margin-bottom: 0; }
+
+    /* Process */
+    .process-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 21px; }
+    .step { border-top: 2px solid var(--ink); padding-top: 22px; }
+    .step-number { display: inline-flex; justify-content: center; align-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); font-weight: 800; margin-bottom: 18px; }
+    .step h3 { margin-bottom: 10px; }
+    .step p { color: var(--muted); font-size: 15px; max-width: 340px; }
+
+    /* Pricing */
+    .pricing { background: var(--surface-soft); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; align-items: stretch; }
+    .price-card { position: relative; display: flex; flex-direction: column; background: white; border: 1px solid #dbe3d8; border-radius: 20px; padding: 26px 22px 22px; min-width: 0; }
+    .price-card.featured { border: 2px solid var(--ink); box-shadow: var(--shadow); }
+    .popular { position: absolute; right: 18px; top: -14px; padding: 5px 11px; color: var(--ink); border-radius: 20px; background: var(--accent); font-size: 11px; font-weight: 800; }
+    .plan-name { font-weight: 800; font-size: 16px; }
+    .plan-intro { min-height: 47px; font-size: 13px; color: var(--muted); line-height: 1.55; margin: 10px 0 12px; }
+    .price { font-size: 42px; font-weight: 850; line-height: 1.15; letter-spacing: -.06em; margin: 7px 0 3px; }
+    .price small { font-size: 14px; font-weight: 650; color: var(--muted); letter-spacing: 0; }
+    .one-time { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .price-card .button { width: 100%; }
+    .price-card ul { list-style: none; padding: 17px 0 0; margin: 18px 0 0; border-top: 1px solid #e7ece5; display: grid; align-content: start; gap: 13px; }
+    .price-card li { position: relative; padding-left: 24px; color: #354a3f; font-size: 13px; line-height: 1.5; }
+    .price-card li::before { content: "✓"; position: absolute; left: 0; color: #336f3b; font-weight: 850; }
+    .enterprise { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 30px 32px; margin-top: 24px; background: var(--deep); border-radius: 19px; color: white; }
+    .enterprise h3 { font-size: 23px; margin-bottom: 6px; }
+    .enterprise p { margin-bottom: 0; color: #d2e3d5; font-size: 14px; }
+    .pricing-note { margin-top: 20px; font-size: 13px; color: var(--muted); }
+
+    /* Contrast checker */
+    .checker { background: white; }
+    .checker-grid { display: grid; grid-template-columns: .95fr 1.05fr; gap: 46px; align-items: center; }
+    .checker-copy p { color: var(--muted); max-width: 500px; }
+    .checker-note { border-left: 3px solid #89ae61; margin-top: 25px; padding: 0 0 0 17px; color: var(--muted); font-size: 13px; }
+    .checker-panel { background: #f5f8f1; border: 1px solid #dfe8db; border-radius: 22px; padding: 26px; }
+    .color-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .color-group label { display: block; font-weight: 750; font-size: 13px; margin-bottom: 8px; }
+    .color-control { display: flex; align-items: center; gap: 9px; background: white; border: 1px solid #cbd7c7; border-radius: 11px; padding: 6px 10px; }
+    .color-control input[type="color"] { appearance: none; -webkit-appearance: none; padding: 0; width: 37px; height: 35px; border: none; background: transparent; cursor: pointer; flex-shrink: 0; }
+    .color-control input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    .color-control input[type="color"]::-webkit-color-swatch { border: 1px solid #d9e1d7; border-radius: 7px; }
+    .color-control output { font-size: 13px; font-weight: 750; }
+    .contrast-preview { margin-top: 17px; padding: 27px 23px; background: #172b24; color: #ffffff; border-radius: 13px; min-height: 135px; }
+    .contrast-preview strong { display: block; font-size: 24px; letter-spacing: -.7px; line-height: 1.3; }
+    .contrast-preview span { font-size: 14px; display: block; margin-top: 8px; }
+    .checker-results { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 13px; padding-top: 18px; }
+    .ratio { font-size: 29px; font-weight: 850; letter-spacing: -.06em; line-height: 1; }
+    .ratio small { font-size: 12px; color: var(--muted); font-weight: 650; letter-spacing: 0; }
+    .pass-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .status { background: #fce8e5; color: #8c3028; padding: 5px 8px; font-weight: 800; font-size: 11px; border-radius: 8px; }
+    .status.pass { background: #daecd5; color: #28582e; }
+    .checker-foot { margin: 15px 0 0; font-size: 12px; color: var(--muted); }
+
+    /* FAQ + CTA */
+    .faq-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 55px; }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-item:first-child { border-top: 1px solid var(--line); }
+    .faq-item summary { list-style: none; cursor: pointer; padding: 19px 32px 19px 0; font-weight: 760; position: relative; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; position: absolute; right: 4px; top: 15px; font-size: 24px; font-weight: 500; }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-item p { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
+    .cta-section { padding-top: 25px; }
+    .cta-panel { display: flex; justify-content: space-between; align-items: center; gap: 32px; background: var(--deep); color: #fff; border-radius: 27px; padding: 57px 60px; position: relative; overflow: hidden; }
+    .cta-panel::after { content: ""; width: 250px; height: 250px; border: 48px solid rgba(210,244,124,.08); border-radius: 50%; position: absolute; right: 16%; top: -150px; pointer-events: none; }
+    .cta-panel h2 { margin: 8px 0 12px; max-width: 610px; }
+    .cta-panel p { color: #d6e3d6; margin-bottom: 0; }
+    .cta-panel .eyebrow::before { background: var(--accent); }
+    .cta-panel .button { flex-shrink: 0; position: relative; z-index: 1; }
+
+    /* Footer */
+    .site-footer { padding: 58px 0 22px; }
+    .footer-top { display: flex; gap: 28px; justify-content: space-between; align-items: flex-start; padding-bottom: 33px; }
+    .footer-description { color: var(--muted); margin: 12px 0 0; max-width: 370px; font-size: 14px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 17px 24px; }
+    .footer-links a { text-decoration: none; font-size: 14px; font-weight: 650; }
+    .footer-bottom { border-top: 1px solid var(--line); padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 1020px) {
+      .hero-grid { gap: 32px; }
+      .service-grid, .pricing-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .plan-intro { min-height: 0; }
+      .visual-wrap { padding-right: 14px; }
+      .floating-note { right: -4px; }
+    }
+    @media (max-width: 760px) {
+      section { padding: 65px 0; }
+      .nav { min-height: 70px; }
+      .brand { font-size: 17px; }
+      .menu-toggle { display: inline-flex; }
+      .nav-links { display: none; position: absolute; left: 0; top: 69px; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 22px 20px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 18px 20px rgba(18,36,29,.07); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 5px; }
+      .nav-links .nav-cta { text-align: center; margin-top: 7px; }
+      .hero { padding-top: 61px; }
+      .hero-grid, .checker-grid, .faq-grid { grid-template-columns: 1fr; }
+      .hero h1 { max-width: 640px; }
+      .hero-copy .lead { max-width: 640px; }
+      .visual-wrap { max-width: 540px; margin: 8px auto 0; width: 100%; }
+      .promise-grid { grid-template-columns: 1fr; }
+      .promise-grid > div { padding: 15px; }
+      .promise-grid > div + div { border-left: 0; border-top: 1px solid var(--line); }
+      .process-grid { grid-template-columns: 1fr; gap: 28px; }
+      .step { padding-top: 18px; }
+      .enterprise, .cta-panel { align-items: flex-start; flex-direction: column; }
+      .cta-panel { padding: 39px 31px; }
+      .faq-grid { gap: 15px; }
+      .footer-top { flex-direction: column; }
+    }
+    @media (max-width: 510px) {
+      .container { width: min(var(--container), calc(100% - 32px)); }
+      .brand { font-size: 16px; letter-spacing: -.8px; }
+      .brand-mark { width: 34px; height: 34px; }
+      h1 { font-size: clamp(41px, 11vw, 55px); }
+      .lead { font-size: 16px; }
+      .service-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .service-card { padding: 25px; }
+      .service-icon { margin-bottom: 18px; }
+      .audit-body { padding: 15px; }
+      .audit-body h3 { font-size: 21px; }
+      .floating-note { right: 0; bottom: 0; }
+      .checker-panel { padding: 16px; }
+      .color-controls { grid-template-columns: 1fr; }
+      .enterprise { padding: 27px 23px; }
+      .cta-panel { padding: 32px 24px; }
+      .footer-bottom { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="humanfirst.digital home">
+        <span class="brand-mark" aria-hidden="true">h.</span>
+        <span>humanfirst<span class="dot">.digital</span></span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="nav-links" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+        <a href="#services">Services</a>
+        <a href="#process">Our process</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#checker">Contrast checker</a>
+        <a class="nav-cta" href="mailto:sales@humanfirst.digital?subject=Service%20inquiry">Let's talk ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">People-centered digital quality</span>
+          <h1 id="hero-title">Digital experiences that put <span>humans first.</span></h1>
+          <p class="lead">We help teams find usability problems, uncover accessibility barriers, and create websites and digital services that work better for everyone.</p>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#pricing">Explore our pricing <span aria-hidden="true">↗</span></a>
+            <a class="button button-outline" href="#services">See what we do <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="hero-proof"><span class="proof-symbol" aria-hidden="true">✓</span> Clear findings. Practical fixes. Inclusive design.</div>
+        </div>
+        <div class="visual-wrap" aria-label="Illustration of a sample accessibility audit report">
+          <div class="audit-window" aria-hidden="true">
+            <div class="window-bar"><div class="window-dots"><i></i><i></i><i></i></div><span class="window-label">humanfirst.digital / sample report</span></div>
+            <div class="audit-body">
+              <div class="audit-top"><div><span class="audit-kicker">Example audit summary</span><h3>Make every click count.</h3></div><span class="audit-badge">UI + Accessibility</span></div>
+              <div class="audit-skeleton"><div class="mock-line medium"></div><div class="mock-line light"></div><div class="mock-line short"></div></div>
+              <div class="findings">
+                <div class="finding"><span class="name"><span class="finding-icon">✓</span> Clear navigation labels</span><span class="finding-state">Example: good</span></div>
+                <div class="finding"><span class="name"><span class="finding-icon warn">!</span> Missing image descriptions</span><span class="finding-state">Example: fix</span></div>
+                <div class="finding"><span class="name"><span class="finding-icon warn">!</span> Low text contrast</span><span class="finding-state">Example: fix</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-note" aria-hidden="true"><span class="floating-note-icon">✦</span><span>Design for everyone.</span></div>
+          <p class="caption-note">Illustrative report — not a live website scan.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="promise-strip" aria-label="Our approach">
+      <div class="container promise-grid"><div><span aria-hidden="true">✳</span> Human-centered testing</div><div><span aria-hidden="true">◎</span> Accessibility-focused reviews</div><div><span aria-hidden="true">↗</span> Actionable recommendations</div></div>
+    </section>
+
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">What we do</span><h2 id="services-title">Better experiences start with better testing.</h2><p>From small websites to complex platforms, we identify issues that get in the way of real people using your digital service.</p></div>
+        <div class="service-grid">
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5M8 13h4M8 17h7"/></svg></div>
+            <h3>UI testing</h3><p>Identify confusing navigation, broken interactions, inconsistent layouts, and mobile usability issues.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M4 9h16M12 7v14M7 21l5-9 5 9"/></svg></div>
+            <h3>Accessibility audits</h3><p>Review against relevant WCAG 2.2 criteria, including keyboard access, text alternatives, forms, and contrast.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3zM8 10h8M8 14h5"/><path d="m18 15 4 4"/></svg></div>
+            <h3>UX reviews</h3><p>Evaluate user journeys, content clarity, form flows, and design decisions that affect task completion.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></div>
+            <h3>Fix recommendations</h3><p>Receive prioritized issues, clear explanations, and practical next steps for designers and developers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">How it works</span><h2 id="process-title">Simple process. Useful outcomes.</h2><p>No mystery scores or overwhelming jargon — just a clear path from discovery to improvements.</p></div>
+        <div class="process-grid">
+          <div class="step"><span class="step-number">01</span><h3>Tell us what to review</h3><p>Share your website or product, your main concerns, and which pages or user journeys matter most.</p></div>
+          <div class="step"><span class="step-number">02</span><h3>We test and evaluate</h3><p>We combine appropriate automated checks with human review, based on your selected package.</p></div>
+          <div class="step"><span class="step-number">03</span><h3>Get a clear report</h3><p>Receive findings, priorities, and practical suggestions so your team knows what to improve next.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">Straightforward pricing</span><h2 id="pricing-title">Find the right level of support.</h2><p>Choose a standard one-time review package, or talk with our team about larger or more complex projects.</p></div>
+        <div class="pricing-grid">
+          <article class="price-card">
+            <div class="plan-name">Starter</div><p class="plan-intro">A focused check for a single page.</p>
+            <div class="price">$99 <small>USD</small></div><p class="one-time">One-time review</p>
+            <a class="button button-outline" href="mailto:sales@humanfirst.digital?subject=Starter%20Package%20%2499">Request Starter <span aria-hidden="true">↗</span></a>
+            <ul><li>1 webpage or screen</li><li>Basic automated accessibility scan</li><li>Manual UI spot-check</li><li>Concise issue summary</li><li>Top improvement priorities</li></ul>
+          </article>
+          <article class="price-card">
+            <div class="plan-name">Essential</div><p class="plan-intro">A broader review for small websites.</p>
+            <div class="price">$299 <small>USD</small></div><p class="one-time">One-time review</p>
+            <a class="button button-outline" href="mailto:sales@humanfirst.digital?subject=Essential%20Package%20%24299">Request Essential <span aria-hidden="true">↗</span></a>
+            <ul><li>Up to 3 webpages or screens</li><li>Automated and manual accessibility checks</li><li>Basic keyboard navigation review</li><li>UI consistency review</li><li>Written findings and suggested fixes</li></ul>
+          </article>
+          <article class="price-card featured">
+            <span class="popular">Recommended</span>
+            <div class="plan-name">Professional</div><p class="plan-intro">A deeper look at important user journeys.</p>
+            <div class="price">$599 <small>USD</small></div><p class="one-time">One-time review</p>
+            <a class="button button-dark" href="mailto:sales@humanfirst.digital?subject=Professional%20Package%20%24599">Request Professional <span aria-hidden="true">↗</span></a>
+            <ul><li>Up to 7 webpages or screens</li><li>Accessibility review guided by WCAG 2.2 AA</li><li>Keyboard and form checks</li><li>Responsive UI and UX review</li><li>Prioritized report with examples</li><li>30-minute findings walkthrough</li></ul>
+          </article>
+          <article class="price-card">
+            <div class="plan-name">Complete</div><p class="plan-intro">Detailed review for growing digital products.</p>
+            <div class="price">$999 <small>USD</small></div><p class="one-time">One-time review</p>
+            <a class="button button-outline" href="mailto:sales@humanfirst.digital?subject=Complete%20Package%20%24999">Request Complete <span aria-hidden="true">↗</span></a>
+            <ul><li>Up to 15 webpages or screens</li><li>Expanded WCAG 2.2 AA-focused audit</li><li>Keyboard and selected screen-reader checks</li><li>Core journey and responsive UI testing</li><li>Detailed findings and remediation guidance</li><li>60-minute review call</li><li>One focused retest of reported fixes</li></ul>
+          </article>
+        </div>
+        <div class="enterprise">
+          <div><h3>Need a custom project over $1,000?</h3><p>For larger platforms, ongoing QA, multiple user journeys, or tailored accessibility support, contact our sales team.</p></div>
+          <a class="button button-primary" href="mailto:sales@humanfirst.digital?subject=Custom%20Project%20Inquiry%20%28Over%20%241000%29">Contact sales <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="pricing-note">Prices are in USD and describe proposed standard review scopes, not automated subscriptions. Final scope and scheduling are confirmed by email. Reviews identify issues but do not guarantee complete accessibility or legal compliance.</p>
+      </div>
+    </section>
+
+    <section class="checker" id="checker" aria-labelledby="checker-title">
+      <div class="container checker-grid">
+        <div class="checker-copy"><span class="eyebrow">Free mini tool</span><h2 id="checker-title">Check your color contrast.</h2><p class="lead">Readable color combinations are part of accessible design. Try different text and background colors and instantly see their contrast ratio.</p><p>Our simple checker uses the WCAG contrast calculation. It can help with color choices, but a full accessibility review covers much more than contrast.</p><div class="checker-note">WCAG AA contrast thresholds: at least 4.5:1 for normal text and 3:1 for large text. Some elements have different requirements.</div></div>
+        <div class="checker-panel">
+          <div class="color-controls">
+            <div class="color-group"><label for="text-color">Text color</label><div class="color-control"><input type="color" id="text-color" value="#ffffff"><output id="text-hex" for="text-color">#FFFFFF</output></div></div>
+            <div class="color-group"><label for="background-color">Background color</label><div class="color-control"><input type="color" id="background-color" value="#172b24"><output id="background-hex" for="background-color">#172B24</output></div></div>
+          </div>
+          <div class="contrast-preview" id="contrast-preview"><strong>Designed for everyone.</strong><span>Accessible design makes a difference.</span></div>
+          <div class="checker-results" aria-live="polite" aria-atomic="true"><div class="ratio" id="contrast-ratio">15.1:1 <small>contrast ratio</small></div><div class="pass-badges"><span class="status pass" id="aa-normal">AA normal: Pass</span><span class="status pass" id="aa-large">AA large: Pass</span><span class="status pass" id="aaa-normal">AAA normal: Pass</span></div></div>
+          <p class="checker-foot">This is a client-side text color checker, not a complete website accessibility scan.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="container faq-grid">
+        <div><span class="eyebrow">Frequently asked questions</span><h2 id="faq-title">Good questions deserve clear answers.</h2><p class="muted">Need something more specific? Email <a href="mailto:sales@humanfirst.digital">sales@humanfirst.digital</a>.</p></div>
+        <div>
+          <details class="faq-item"><summary>Do you provide an accessibility certification?</summary><p>No. Our reviews provide findings and recommendations against relevant accessibility criteria. An audit is not a guarantee of legal compliance, and it is not an official certification.</p></details>
+          <details class="faq-item"><summary>What types of digital services can you review?</summary><p>We can discuss marketing websites, education platforms, online forms, dashboards, web applications, and other digital interfaces. Scope and test coverage depend on the selected package.</p></details>
+          <details class="faq-item"><summary>Will you fix the issues you find?</summary><p>Standard packages focus on testing, reporting, and recommendations. Implementation or extended remediation support can be discussed as a custom project.</p></details>
+          <details class="faq-item"><summary>How do I get started?</summary><p>Select a package and send us an email with your website URL, the pages or flows to review, and any specific concerns. We will confirm the scope before work begins.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="contact" aria-labelledby="contact-title">
+      <div class="container"><div class="cta-panel"><div><span class="eyebrow">Let's make digital better</span><h2 id="contact-title">Your next improvement starts with a conversation.</h2><p>Tell us about your website, application, or digital service.</p></div><a class="button button-primary" href="mailto:sales@humanfirst.digital?subject=Website%20Review%20Inquiry">Email sales@humanfirst.digital <span aria-hidden="true">↗</span></a></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top"><div><a class="brand" href="#top" aria-label="humanfirst.digital home"><span class="brand-mark" aria-hidden="true">h.</span><span>humanfirst<span class="dot">.digital</span></span></a><p class="footer-description">UI testing, accessibility reviews, and better digital experiences — designed with people in mind.</p></div><nav class="footer-links" aria-label="Footer navigation"><a href="#services">Services</a><a href="#process">Process</a><a href="#pricing">Pricing</a><a href="#checker">Contrast checker</a><a href="mailto:sales@humanfirst.digital">Contact</a></nav></div>
+      <div class="footer-bottom"><span>© <span id="year">2026</span> humanfirst.digital. All rights reserved.</span><span>Making the digital world more human.</span></div>
+    </div>
+  </footer>
+
+  <script>
+    // Accessible mobile navigation
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    function closeMenu() {
+      navLinks.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Open navigation menu');
+    }
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+
+    // WCAG relative luminance and text contrast ratio
+    const textColor = document.getElementById('text-color');
+    const backgroundColor = document.getElementById('background-color');
+    const preview = document.getElementById('contrast-preview');
+    function luminance(hex) {
+      const parts = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+      const linear = parts.map(value => value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4));
+      return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    }
+    function setStatus(id, label, passed) {
+      const badge = document.getElementById(id);
+      badge.textContent = `${label}: ${passed ? 'Pass' : 'Fail'}`;
+      badge.classList.toggle('pass', passed);
+    }
+    function updateContrast() {
+      const foreground = textColor.value;
+      const background = backgroundColor.value;
+      document.getElementById('text-hex').textContent = foreground.toUpperCase();
+      document.getElementById('background-hex').textContent = background.toUpperCase();
+      preview.style.color = foreground;
+      preview.style.backgroundColor = background;
+      const light = Math.max(luminance(foreground), luminance(background));
+      const dark = Math.min(luminance(foreground), luminance(background));
+      const ratio = (light + 0.05) / (dark + 0.05);
+      document.getElementById('contrast-ratio').innerHTML = `${ratio.toFixed(2)}:1 <small>contrast ratio</small>`;
+      setStatus('aa-normal', 'AA normal', ratio >= 4.5);
+      setStatus('aa-large', 'AA large', ratio >= 3);
+      setStatus('aaa-normal', 'AAA normal', ratio >= 7);
+    }
+    textColor.addEventListener('input', updateContrast);
+    backgroundColor.addEventListener('input', updateContrast);
+    updateContrast();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
 
